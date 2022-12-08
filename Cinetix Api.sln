@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinetix Api", "Cinetix Api\Cinetix Api.csproj", "{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67B9DE35-E48C-4ED2-A2C0-EECBD0A9AD5E}
+	EndGlobalSection
+EndGlobal

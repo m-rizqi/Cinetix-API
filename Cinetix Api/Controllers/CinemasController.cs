@@ -80,7 +80,7 @@ namespace Cinetix_Api.Controllers
         {
             _context.Cinemas.Add(cinema);
             await _context.SaveChangesAsync();
-
+            
             return CreatedAtAction("GetCinema", new { id = cinema.Id }, cinema);
         }
 

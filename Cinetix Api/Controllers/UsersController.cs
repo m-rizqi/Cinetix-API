@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Cinetix_Api.Context;
 using Cinetix_Api.Models;
 using Cinetix_Api.Request;
+using Cinetix_Api.Utility;
+using Cinetix_Api.Response;
+using System.Net;
 
 namespace Cinetix_Api.Controllers
 {
@@ -104,6 +107,49 @@ namespace Cinetix_Api.Controllers
         private bool UserExists(long id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }
+
+        [Route("Login")]
+        [HttpPost]
+        public IActionResult Login(LoginRequest LoginRequest)
+        {
+            if (!Utility.Utility.IsValidEmail(LoginRequest.Email)) {
+                return new ErrorResponse(HttpStatusCode.BadRequest, "Email not valid");
+            }
+            if (!Utility.Utility.isValidPassword(LoginRequest.Password))
+            {
+                return new ErrorResponse(HttpStatusCode.BadRequest, "Password not valid. It must contain at least a number, an upper case letter, and 8 characters long");
+            }
+            var user = _context.Users
+                .ToList()
+                .Where(user => user.Email.Equals(LoginRequest.Email) && user.Password.Equals(LoginRequest.Password))
+                .FirstOrDefault();
+            if(user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(user);
+            }
+        }
+
+        [Route("Register")]
+        [HttpPost]
+        public async Task<ActionResult<User>> Register(User user)
+        {
+            if (user.Email.Length == 0)
+            {
+
+            }
+            if (user.Password.Length < 8)
+            {
+
+            }
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
     }

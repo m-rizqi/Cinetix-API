@@ -8,8 +8,8 @@
         public string ImageUrl { get; set; }
         public DateTime ReleaseDate { get; set; }
         public double Rating { get; set; }
-        public List<Genre> Genres { get; set; }
-        public List<Review> Reviews { get; set; }
-        public List<Cinema> Cinemas { get; set; }
+        public ICollection<Genre> Genres { get; set; }
+        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Cinema> Cinemas { get; set; }
     }
 }

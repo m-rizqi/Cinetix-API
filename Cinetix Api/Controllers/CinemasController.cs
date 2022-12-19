@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Cinetix_Api.Context;
 using Cinetix_Api.Models;
@@ -14,36 +9,42 @@ namespace Cinetix_Api.Controllers
     [ApiController]
     public class CinemasController : ControllerBase
     {
-        private readonly CinemaContext _context;
+        private readonly CinemaContext _cinemaContext;
+        private readonly SeatContext _seatContext;
 
-        public CinemasController(CinemaContext context)
+        public CinemasController(CinemaContext cinemaContext, SeatContext seatContext)
         {
-            _context = context;
+            _cinemaContext = cinemaContext;
+            _seatContext = seatContext;
         }
 
-        // GET: api/Cinemas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cinema>>> GetCinemas()
         {
-            return await _context.Cinemas.ToListAsync();
+            var cinemas = await _cinemaContext.Cinemas.ToListAsync();
+            foreach(var cinema in cinemas)
+            {
+                var seats = _seatContext.Seats.ToList().Where(seat => seat.CinemaId.Equals(cinema.Id));
+                cinema.Seats = seats.ToList();
+            }
+            return cinemas;
         }
 
-        // GET: api/Cinemas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Cinema>> GetCinema(int id)
         {
-            var cinema = await _context.Cinemas.FindAsync(id);
+            var cinema = await _cinemaContext.Cinemas.FindAsync(id);
 
             if (cinema == null)
             {
                 return NotFound();
             }
+            var seats = _seatContext.Seats.ToList().Where(seat => seat.CinemaId.Equals(cinema.Id));
+            cinema.Seats = seats.ToList();
 
             return cinema;
         }
 
-        // PUT: api/Cinemas/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCinema(int id, Cinema cinema)
         {
@@ -52,11 +53,16 @@ namespace Cinetix_Api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(cinema).State = EntityState.Modified;
+            _cinemaContext.Entry(cinema).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _cinemaContext.SaveChangesAsync();
+                foreach (var seat in cinema.Seats)
+                {
+                    _seatContext.Entry(seat).State = EntityState.Modified;
+                    await _seatContext.SaveChangesAsync();
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,36 +79,39 @@ namespace Cinetix_Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Cinemas
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Cinema>> PostCinema(Cinema cinema)
         {
-            _context.Cinemas.Add(cinema);
-            await _context.SaveChangesAsync();
+            _cinemaContext.Cinemas.Add(cinema);
+            await _cinemaContext.SaveChangesAsync();
+            foreach(var seat in cinema.Seats)
+            {
+                seat.CinemaId = cinema.Id;
+                _seatContext.Seats.Add(seat);
+                await _seatContext.SaveChangesAsync();
+            }
             
             return CreatedAtAction("GetCinema", new { id = cinema.Id }, cinema);
         }
 
-        // DELETE: api/Cinemas/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCinema(int id)
         {
-            var cinema = await _context.Cinemas.FindAsync(id);
+            var cinema = await _cinemaContext.Cinemas.FindAsync(id);
             if (cinema == null)
             {
                 return NotFound();
             }
 
-            _context.Cinemas.Remove(cinema);
-            await _context.SaveChangesAsync();
+            _cinemaContext.Cinemas.Remove(cinema);
+            await _cinemaContext.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool CinemaExists(int id)
         {
-            return _context.Cinemas.Any(e => e.Id == id);
+            return _cinemaContext.Cinemas.Any(e => e.Id == id);
         }
     }
 }

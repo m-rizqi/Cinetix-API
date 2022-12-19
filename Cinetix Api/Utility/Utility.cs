@@ -10,7 +10,7 @@ namespace Cinetix_Api.Utility
             var emailAttribute = new EmailAddressAttribute();
             return emailAttribute.IsValid(email);
         }
-        public static bool isValidPassword(string password)
+        public static bool IsValidPassword(string password)
         {
             var numberRegex = new Regex(@"[0-9]+");
             var capsRegex = new Regex(@"[A-Z]+");

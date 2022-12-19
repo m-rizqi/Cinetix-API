@@ -9,5 +9,6 @@ namespace Cinetix_Api.Models
         public bool IsBooked { get; set; }
         public DateTime DateAndTime { get; set; }
         public int BookedUserId { get; set; }
+        public int CinemaId { get; set; }
     }
 }

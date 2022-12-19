@@ -4,10 +4,10 @@ using System.Net;
 
 namespace Cinetix_Api.Response
 {
-    public class ErrorResponse : IActionResult
+    public class ErrorResponse<T> : ActionResult
     {
-        private readonly HttpStatusCode statusCode;
-        private readonly string message;
+        public readonly HttpStatusCode statusCode;
+        public readonly string message;
 
         public ErrorResponse(HttpStatusCode statusCode, string message)
         {

@@ -8,5 +8,6 @@ namespace Cinetix_Api.Context
         {
         }
         public DbSet<Cinema> Cinemas { get; set; }
+
     }
 }

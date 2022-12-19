@@ -25,14 +25,12 @@ namespace Cinetix_Api.Controllers
             _context = context;
         }
 
-        // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)
         {
@@ -46,10 +44,8 @@ namespace Cinetix_Api.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(long id, User user)
+        public async Task<ActionResult<User>> PutUser(long id, User user)
         {
             if (id != user.Id)
             {
@@ -61,6 +57,7 @@ namespace Cinetix_Api.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                return user;
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -68,17 +65,10 @@ namespace Cinetix_Api.Controllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
             }
-
             return NoContent();
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
@@ -88,7 +78,6 @@ namespace Cinetix_Api.Controllers
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(long id)
         {
@@ -111,18 +100,18 @@ namespace Cinetix_Api.Controllers
 
         [Route("Login")]
         [HttpPost]
-        public IActionResult Login(LoginRequest LoginRequest)
+        public async Task<ActionResult<User>> Login(LoginRequest loginRequest)
         {
-            if (!Utility.Utility.IsValidEmail(LoginRequest.Email)) {
-                return new ErrorResponse(HttpStatusCode.BadRequest, "Email not valid");
+            if (!Utility.Utility.IsValidEmail(loginRequest.Email)) {
+                return new ErrorResponse<User>(HttpStatusCode.BadRequest, "Email not valid");
             }
-            if (!Utility.Utility.isValidPassword(LoginRequest.Password))
+            if (!Utility.Utility.IsValidPassword(loginRequest.Password))
             {
-                return new ErrorResponse(HttpStatusCode.BadRequest, "Password not valid. It must contain at least a number, an upper case letter, and 8 characters long");
+                return new ErrorResponse<User>(HttpStatusCode.BadRequest, "Password not valid. It must contain at least a number, an upper case letter, and 8 characters long");
             }
             var user = _context.Users
                 .ToList()
-                .Where(user => user.Email.Equals(LoginRequest.Email) && user.Password.Equals(LoginRequest.Password))
+                .Where(user => user.Email.Equals(loginRequest.Email) && user.Password.Equals(loginRequest.Password))
                 .FirstOrDefault();
             if(user == null)
             {
@@ -130,7 +119,7 @@ namespace Cinetix_Api.Controllers
             }
             else
             {
-                return Ok(user);
+                return user;
             }
         }
 
@@ -138,13 +127,13 @@ namespace Cinetix_Api.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Register(User user)
         {
-            if (user.Email.Length == 0)
+            if (!Utility.Utility.IsValidEmail(user.Email))
             {
-
+                return new ErrorResponse<User>(HttpStatusCode.BadRequest, "Email not valid");
             }
-            if (user.Password.Length < 8)
+            if (!Utility.Utility.IsValidPassword(user.Password))
             {
-
+                return new ErrorResponse<User>(HttpStatusCode.BadRequest, "Password not valid. It must contain at least a number, an upper case letter, and 8 characters long");
             }
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

@@ -21,14 +21,12 @@ namespace Cinetix_Api.Controllers
             _context = context;
         }
 
-        // GET: api/Genres
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Genre>>> GetGenres()
         {
             return await _context.Genres.ToListAsync();
         }
 
-        // GET: api/Genres/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Genre>> GetGenre(int id)
         {
@@ -42,10 +40,8 @@ namespace Cinetix_Api.Controllers
             return genre;
         }
 
-        // PUT: api/Genres/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGenre(int id, Genre genre)
+        public async Task<ActionResult<Genre>> PutGenre(int id, Genre genre)
         {
             if (id != genre.Id)
             {
@@ -57,6 +53,7 @@ namespace Cinetix_Api.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                return genre;
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -69,12 +66,8 @@ namespace Cinetix_Api.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
-        // POST: api/Genres
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Genre>> PostGenre(Genre genre)
         {
@@ -84,7 +77,6 @@ namespace Cinetix_Api.Controllers
             return CreatedAtAction("GetGenre", new { id = genre.Id }, genre);
         }
 
-        // DELETE: api/Genres/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGenre(int id)
         {

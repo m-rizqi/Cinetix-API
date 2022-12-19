@@ -3,10 +3,8 @@ using Cinetix_Api.Controllers;
 using Cinetix_Api.Models;
 using Cinetix_Api.Request;
 using Cinetix_Api.Response;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 
 namespace Cinetix_Api.Test.Controllers

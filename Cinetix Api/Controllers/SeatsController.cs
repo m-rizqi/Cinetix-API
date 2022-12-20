@@ -45,7 +45,7 @@ namespace Cinetix_Api.Controllers
         // PUT: api/Seats/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSeat(int id, Seat seat)
+        public async Task<ActionResult<Seat>> PutSeat(int id, Seat seat)
         {
             if (id != seat.Id)
             {
@@ -57,6 +57,7 @@ namespace Cinetix_Api.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                return seat;
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -69,8 +70,6 @@ namespace Cinetix_Api.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Seats

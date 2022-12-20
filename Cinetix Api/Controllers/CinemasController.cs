@@ -46,7 +46,7 @@ namespace Cinetix_Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCinema(int id, Cinema cinema)
+        public async Task<ActionResult<Cinema>> PutCinema(int id, Cinema cinema)
         {
             if (id != cinema.Id)
             {
@@ -63,6 +63,7 @@ namespace Cinetix_Api.Controllers
                     _seatContext.Entry(seat).State = EntityState.Modified;
                     await _seatContext.SaveChangesAsync();
                 }
+                return cinema;
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -75,8 +76,6 @@ namespace Cinetix_Api.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         [HttpPost]

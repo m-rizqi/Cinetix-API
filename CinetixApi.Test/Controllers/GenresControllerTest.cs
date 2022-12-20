@@ -33,11 +33,11 @@ namespace Cinetix_Api.Test.Controllers
             var genre1 = new Genre("Action");
             var genre2 = new Genre("Romance");
             var genre3 = new Genre("Comedy");
-            // Act
             genreContext.Genres.Add(genre1);
             genreContext.Genres.Add(genre2);
             genreContext.Genres.Add(genre3);
             genreContext.SaveChanges();
+            // Act
             var response = genresController.GetGenres();
             // Assert
             Assert.AreEqual(3, response.Result.Value.Count());

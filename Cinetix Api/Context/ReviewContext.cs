@@ -7,6 +7,6 @@ namespace Cinetix_Api.Context
         public ReviewContext(DbContextOptions<ReviewContext> options) : base(options)
         {
         }
-        public DbSet<Review> Review { get; set; }
+        public DbSet<Review> Reviews { get; set; }
     }
 }

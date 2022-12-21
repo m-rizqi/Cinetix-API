@@ -10,7 +10,7 @@ using Cinetix_Api.Models;
 
 namespace Cinetix_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/genres")]
     [ApiController]
     public class GenresController : ControllerBase
     {
@@ -92,7 +92,8 @@ namespace Cinetix_Api.Controllers
             return NoContent();
         }
 
-        private bool GenreExists(int id)
+        [HttpGet("isExist/{id}")]
+        public bool GenreExists(int id)
         {
             return _context.Genres.Any(e => e.Id == id);
         }

@@ -10,7 +10,7 @@ using Cinetix_Api.Models;
 
 namespace Cinetix_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/reviews")]
     [ApiController]
     public class ReviewsController : ControllerBase
     {
@@ -92,7 +92,8 @@ namespace Cinetix_Api.Controllers
             return NoContent();
         }
 
-        private bool ReviewExists(int id)
+        [HttpGet("isExist/{id}")]
+        public bool ReviewExists(int id)
         {
             return _context.Reviews.Any(e => e.Id == id);
         }

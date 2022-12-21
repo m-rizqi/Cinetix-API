@@ -5,17 +5,19 @@ using Cinetix_Api.Models;
 
 namespace Cinetix_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/cinemas")]
     [ApiController]
     public class CinemasController : ControllerBase
     {
         private readonly CinemaContext _cinemaContext;
         private readonly SeatContext _seatContext;
+        private readonly SeatsController seatsController;
 
         public CinemasController(CinemaContext cinemaContext, SeatContext seatContext)
         {
             _cinemaContext = cinemaContext;
             _seatContext = seatContext;
+            seatsController = new SeatsController(seatContext);
         }
 
         [HttpGet]
@@ -60,8 +62,15 @@ namespace Cinetix_Api.Controllers
                 await _cinemaContext.SaveChangesAsync();
                 foreach (var seat in cinema.Seats)
                 {
-                    _seatContext.Entry(seat).State = EntityState.Modified;
-                    await _seatContext.SaveChangesAsync();
+                    if (seatsController.SeatExists(seat.Id))
+                    {
+                        await seatsController.PutSeat(seat.Id, seat);
+                    }
+                    else
+                    {
+                        seat.CinemaId = cinema.Id;
+                        await seatsController.PostSeat(seat);
+                    }
                 }
                 return cinema;
             }
@@ -86,8 +95,7 @@ namespace Cinetix_Api.Controllers
             foreach(var seat in cinema.Seats)
             {
                 seat.CinemaId = cinema.Id;
-                _seatContext.Seats.Add(seat);
-                await _seatContext.SaveChangesAsync();
+                await seatsController.PostSeat(seat);
             }
             
             return CreatedAtAction("GetCinema", new { id = cinema.Id }, cinema);
@@ -108,7 +116,8 @@ namespace Cinetix_Api.Controllers
             return NoContent();
         }
 
-        private bool CinemaExists(int id)
+        [HttpGet("isExist/{id}")]
+        public bool CinemaExists(int id)
         {
             return _cinemaContext.Cinemas.Any(e => e.Id == id);
         }

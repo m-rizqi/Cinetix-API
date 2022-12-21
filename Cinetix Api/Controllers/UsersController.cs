@@ -14,7 +14,7 @@ using System.Net;
 
 namespace Cinetix_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {

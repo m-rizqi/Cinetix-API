@@ -23,6 +23,12 @@ builder.Services.AddDbContext<TicketContext>(opt =>
     opt.UseInMemoryDatabase("Tickets"));
 builder.Services.AddDbContext<UserContext>(opt =>
     opt.UseInMemoryDatabase("Users"));
+builder.Services.AddDbContext<MovieWithCinemasContext>(opt =>
+    opt.UseInMemoryDatabase("MovieWithCinemasContext"));
+builder.Services.AddDbContext<MovieWithGenresContext>(opt =>
+    opt.UseInMemoryDatabase("MovieWithGenresContext"));
+builder.Services.AddDbContext<MovieWithReviewsContext>(opt =>
+    opt.UseInMemoryDatabase("MovieWithReviewsContext"));
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

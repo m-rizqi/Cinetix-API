@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinetix Api", "Cinetix Api\Cinetix Api.csproj", "{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cinetix Api", "Cinetix Api\Cinetix Api.csproj", "{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinetix Api.Test", "CinetixApi.Test\Cinetix Api.Test.csproj", "{D0F191B7-78CE-4D80-B1A7-6053F8B59382}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE610DE2-6EF2-4B96-9A73-B8A1E8D5190C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0F191B7-78CE-4D80-B1A7-6053F8B59382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0F191B7-78CE-4D80-B1A7-6053F8B59382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0F191B7-78CE-4D80-B1A7-6053F8B59382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0F191B7-78CE-4D80-B1A7-6053F8B59382}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
